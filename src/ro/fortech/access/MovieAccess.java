@@ -250,6 +250,7 @@ public class MovieAccess {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return result;
 	}
 }
