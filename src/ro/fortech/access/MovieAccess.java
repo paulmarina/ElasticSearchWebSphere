@@ -89,8 +89,6 @@ public class MovieAccess {
 
 		properties = loadPaths();
 
-		properties = loadPaths();
-
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
 				properties.getProperty(Constants.TYPE), String.valueOf(movie
@@ -144,11 +142,11 @@ public class MovieAccess {
 
 		properties = loadPaths();
 
-		/*
-		 * client.prepareDelete(properties.getProperty(Constants.INDEX),
-		 * properties.getProperty(Constants.TYPE), id).execute() .actionGet();
-		 * client.close();
-		 */
+		client.prepareDelete(properties.getProperty(Constants.INDEX),
+				properties.getProperty(Constants.TYPE), id).execute()
+				.actionGet();
+		client.close();
+
 	}
 
 	public List<Movie> searchDocument(String column, String value) {
@@ -166,7 +164,6 @@ public class MovieAccess {
 
 		properties = loadPaths();
 
-		
 		SearchResponse response;
 
 		if (value == null && column == null) {
@@ -221,7 +218,7 @@ public class MovieAccess {
 		client.close();
 		return result;
 
-		//return new ArrayList<Movie>();
+		// return new ArrayList<Movie>();
 	}
 
 	public List<Movie> searchDocument() {
