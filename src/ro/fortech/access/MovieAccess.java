@@ -228,7 +228,7 @@ public class MovieAccess {
 		return searchDocument(null, null);
 	}
 
-	private Properties loadPaths() {
+	public Properties loadPaths() {
 
 		Properties result = null;
 		try {

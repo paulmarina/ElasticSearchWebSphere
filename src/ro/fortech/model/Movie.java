@@ -6,6 +6,7 @@ public class Movie {
 	private String director;
 	private int year;
 	private int id;
+	private String imagine;
 
 	public Movie(String title, String director, int year, int id) {
 		super();
@@ -46,6 +47,14 @@ public class Movie {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getImagine() {
+		return imagine;
+	}
+
+	public void setImagine(String imagine) {
+		this.imagine = imagine;
 	}
 
 }
