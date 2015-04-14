@@ -7,7 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <h:head>
-	<link href="table.css" rel="stylesheet" type="text/css"/>
+	<link href="table.css" rel="stylesheet" type="text/css" />
 </h:head>
 <h:body>
 
@@ -31,7 +31,7 @@
 					<f:facet name="header">#</f:facet>
 					<h:outputText value="#{it.index + 1}" />
 				</rich:column>
-				
+
 				<rich:column breakBefore="true">
 					<f:facet name="header">Title</f:facet>
 					<h:outputText value="#{movie.title}" />
@@ -47,10 +47,18 @@
 					<h:outputText value="#{movie.year}" />
 				</rich:column>
 
+				<rich:column breakBefore="true">
+					<f:facet name="header">Actions</f:facet>
+					<h:commandButton value="Edit" />
+					<h:commandButton value="Delete" />
+					<h:commandButton value="View" />
+					
+				</rich:column>
+
 			</rich:extendedDataTable>
-			
-			
-			
+
+
+
 		</h:form>
 
 	</f:view>
