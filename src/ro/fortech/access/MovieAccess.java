@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -166,7 +169,6 @@ public class MovieAccess {
 
 		properties = loadPaths();
 
-		
 		SearchResponse response;
 
 		if (value == null && column == null) {
@@ -221,7 +223,7 @@ public class MovieAccess {
 		client.close();
 		return result;
 
-		//return new ArrayList<Movie>();
+		// return new ArrayList<Movie>();
 	}
 
 	public List<Movie> searchDocument() {
@@ -232,9 +234,14 @@ public class MovieAccess {
 
 		Properties result = null;
 		try {
-
-			File file = new File(Constants.XML_PATH);
+			
+	        ServletContext servletContext= (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+	        String path=servletContext.getRealPath(Constants.XML_PATH);
+	        System.out.println(path);
+	        File file = new File(path);
+			
 			FileInputStream fileInput = new FileInputStream(file);
+			
 			Properties properties = new Properties();
 			properties.loadFromXML(fileInput);
 			fileInput.close();
@@ -245,5 +252,4 @@ public class MovieAccess {
 		}
 		return result;
 	}
-
 }
