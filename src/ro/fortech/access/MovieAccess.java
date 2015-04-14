@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -225,13 +228,18 @@ public class MovieAccess {
 		return searchDocument(null, null);
 	}
 
-	private Properties loadPaths() {
+	public Properties loadPaths() {
 
 		Properties result = null;
 		try {
-
-			File file = new File(Constants.XML_PATH);
+			
+	        ServletContext servletContext= (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+	        String path=servletContext.getRealPath(Constants.XML_PATH);
+	        System.out.println(path);
+	        File file = new File(path);
+			
 			FileInputStream fileInput = new FileInputStream(file);
+			
 			Properties properties = new Properties();
 			properties.loadFromXML(fileInput);
 			fileInput.close();
@@ -240,7 +248,7 @@ public class MovieAccess {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return result;
 	}
-
 }
