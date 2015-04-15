@@ -38,7 +38,10 @@ public class DisplayMoviesDialog implements Serializable {
 	}
 
 	public String deleteMovie(Movie movie) {
-		setMoviesList(displayCtrl.deleteMovie(String.valueOf(movie.getId())));
+		Boolean deleteSucceeded = displayCtrl.deleteMovie(String.valueOf(movie.getId()));
+		if (deleteSucceeded){
+			this.moviesList.remove(movie);
+		}
 		return "index.xhtml?faces-redirect=true";
 	}
 }
