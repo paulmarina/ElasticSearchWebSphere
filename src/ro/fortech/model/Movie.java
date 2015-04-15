@@ -8,12 +8,13 @@ public class Movie {
 	private int id;
 	private String imagine;
 
-	public Movie(String title, String director, int year, int id) {
+	public Movie(String title, String director, int year, int id,String imagine) {
 		super();
 		this.title = title;
 		this.director = director;
 		this.year = year;
 		this.id = id;
+		this.imagine = imagine;
 	}
 
 	public String getTitle() {
