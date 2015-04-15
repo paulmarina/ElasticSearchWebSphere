@@ -14,7 +14,7 @@ import ro.fortech.access.MovieAccess;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
-@Path("/image/{id}")
+@Path("/image")
 public class ImageService {
 	
 	//private Properties properties = new Properties();
