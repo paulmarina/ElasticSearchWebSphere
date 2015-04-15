@@ -15,12 +15,10 @@
 
 		<h:form>
 
-			<rich:extendedDataTable id="moviesTable"
-				value="#{displayMoviesDialog.moviesList}" var="movie"
+			<rich:dataTable value="#{displayMoviesDialog.moviesList}" var="movie"
 				iterationStatusVar="it" styleClass="movieTable"
 				headerClass="movieTableHeader"
-				rowClasses="movieTableOddRow,movieTableEvenRow" style="width:20"
-				rows="2">
+				rowClasses="movieTableOddRow,movieTableEvenRow" style="width:20">
 
 				<f:facet name="header">
 					<h:outputText value="List of movies" />
@@ -50,15 +48,14 @@
 				<rich:column breakBefore="true">
 					<f:facet name="header">Actions</f:facet>
 					<h:commandButton value="Edit" />
-					<h:commandButton value="Delete" action="#{displayMoviesDialog.deleteMovie(movie)}"/>
+					<h:commandButton value="Delete"
+						action="#{displayMoviesDialog.deleteMovie(movie)}" />
 					<h:commandButton value="View" />
-					<h:commandButton value="DisplayImage" action="#{movieImageDialog.displayImage(movie.imagine)}"/>
-					
+					<h:commandButton value="DisplayImage"
+						action="#{movieImageDialog.displayImage(movie.imagine)}" />
 				</rich:column>
 
-			</rich:extendedDataTable>
-			
-			
+			</rich:dataTable>
 
 		</h:form>
 
