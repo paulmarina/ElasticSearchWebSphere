@@ -14,13 +14,11 @@ import ro.fortech.access.MovieAccess;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
-
+@Path("/image")
 public class ImageService {
 	
-	/*private Properties properties = new Properties();
-	@Inject
-	private MovieAccess movieAcc;
-	
+	//private Properties properties = new Properties();
+	/*
 	@GET
 	@Path("/{id}")
 	public Response getImage(@PathParam("id") String id){
@@ -37,8 +35,14 @@ public class ImageService {
 		
 	}*/
 	
+	
+	@Inject
+	private MovieAccess movieAcc;
+	
+	
 	@GET
-    public String sayHelloWorld() {
+    public String getImage() {
+		
         return "Hello World!";
     }
 
