@@ -64,6 +64,7 @@ public class MovieAccess {
 		jsonDocument.put("director", movie.getDirector());
 		jsonDocument.put("year", movie.getYear());
 		jsonDocument.put("id", movie.getId());
+		jsonDocument.put("imagine", movie.getImagine());
 		return jsonDocument;
 	}
 
@@ -192,6 +193,7 @@ public class MovieAccess {
 			String localDirector = "";
 			int localId = 0;
 			int localYear = 0;
+			String localImagine = "";
 
 			for (Map.Entry<String, Object> entry : partialResult.entrySet()) {
 
@@ -203,11 +205,13 @@ public class MovieAccess {
 					localId = Integer.parseInt(entry.getValue().toString());
 				} else if (entry.getKey().equals("year")) {
 					localYear = Integer.parseInt(entry.getValue().toString());
+				} else if (entry.getKey().equals("imagine")) {
+					localImagine = entry.getValue().toString();
 				}
 			}
 
 			Movie movie = new Movie(localTitle, localDirector, localYear,
-					localId);
+					localId, localImagine);
 
 			result.add(movie);
 			/*
@@ -232,14 +236,15 @@ public class MovieAccess {
 
 		Properties result = null;
 		try {
-			
-	        ServletContext servletContext= (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-	        String path=servletContext.getRealPath(Constants.XML_PATH);
-	        System.out.println(path);
-	        File file = new File(path);
-			
+
+			ServletContext servletContext = (ServletContext) FacesContext
+					.getCurrentInstance().getExternalContext().getContext();
+			String path = servletContext.getRealPath(Constants.XML_PATH);
+			System.out.println(path);
+			File file = new File(path);
+
 			FileInputStream fileInput = new FileInputStream(file);
-			
+
 			Properties properties = new Properties();
 			properties.loadFromXML(fileInput);
 			fileInput.close();
@@ -248,7 +253,7 @@ public class MovieAccess {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 }
