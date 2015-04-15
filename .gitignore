@@ -1,2 +1,6 @@
 *.class
 .settings/
+
+/.apt_generated/
+
+/bin/

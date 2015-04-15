@@ -20,8 +20,7 @@ public class DisplayMoviesDialog implements Serializable {
 	@Inject
 	private DisplayMoviesController displayCtrl;
 	private List<Movie> moviesList;
-	
-	
+
 	public DisplayMoviesDialog() {
 	}
 
@@ -37,9 +36,9 @@ public class DisplayMoviesDialog implements Serializable {
 	public void setMoviesList(List<Movie> moviesList) {
 		this.moviesList = moviesList;
 	}
-	
+
 	public String deleteMovie(Movie movie) {
-		displayCtrl.deleteMovie(String.valueOf(movie.getId()));
+		setMoviesList(displayCtrl.deleteMovie(String.valueOf(movie.getId())));
 		return "index.xhtml?faces-redirect=true";
 	}
 }

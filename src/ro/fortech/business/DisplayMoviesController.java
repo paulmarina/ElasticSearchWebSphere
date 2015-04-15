@@ -39,8 +39,9 @@ public class DisplayMoviesController {
 		return movieAccess.searchDocument();
 	}
 	
-	public void deleteMovie(String id) {
+	public List<Movie> deleteMovie(String id) {
 		movieAccess.deleteDocument(id);
+		return displayMovies();
 	}
 
 }
