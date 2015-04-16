@@ -4,18 +4,12 @@ package ro.fortech.access;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -30,15 +24,6 @@ import org.elasticsearch.search.SearchHit;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
-/*import org.elasticsearch.action.get.GetResponse;
- import org.elasticsearch.action.index.IndexRequest;
- import org.elasticsearch.action.search.SearchResponse;
- import org.elasticsearch.action.update.UpdateRequest;
- import org.elasticsearch.client.Client;
- import org.elasticsearch.index.query.QueryBuilders;
- import org.elasticsearch.node.Node;
- import org.elasticsearch.search.SearchHit;*/
-
 public class MovieAccess {
 
 	Node node;
@@ -50,12 +35,13 @@ public class MovieAccess {
 
 	public MovieAccess() {
 
-		properties = loadPaths();
+	}
 
+	public void init(Properties properties) {
+		this.properties = properties;
 		this.node = nodeBuilder().clusterName(
 				properties.getProperty(Constants.CLUSTER)).node();
 		this.client = node.client();
-
 	}
 
 	public Map<String, Object> createJsonDocument(Movie movie) {
@@ -71,8 +57,6 @@ public class MovieAccess {
 	}
 
 	public void updateDocument(Movie movie) {
-
-		properties = loadPaths();
 
 		/*
 		 * updateRequest updateRequest = new UpdateRequest();
@@ -92,8 +76,6 @@ public class MovieAccess {
 	}
 
 	public Boolean upsertDocument(Movie movie) {
-
-		properties = loadPaths();
 		UpdateResponse ur = new UpdateResponse();
 
 		IndexRequest indexRequest = new IndexRequest(
@@ -126,8 +108,6 @@ public class MovieAccess {
 
 	public Map<String, Object> getDocument(String id) {
 
-		properties = loadPaths();
-
 		/*
 		 * GetResponse getResponse = client
 		 * .prepareGet(properties.getProperty(Constants.INDEX),
@@ -152,17 +132,15 @@ public class MovieAccess {
 
 	public Boolean deleteDocument(String id) {
 
-		properties = loadPaths();
-
-		DeleteResponse drb = client.prepareDelete(properties.getProperty(Constants.INDEX),
-				properties.getProperty(Constants.TYPE), id).execute()
+		DeleteResponse drb = client
+				.prepareDelete(properties.getProperty(Constants.INDEX),
+						properties.getProperty(Constants.TYPE), id).execute()
 				.actionGet();
 		client.close();
 		// if id of movie is found
-		if (drb.isFound()){
+		if (drb.isFound()) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 
@@ -180,8 +158,6 @@ public class MovieAccess {
 		 */
 		// SearchResponse response =
 		// client.prepareSearch().setPostFilter(FilterBuilders.rangeFilter("year").from(2010).to(2015)).execute().actionGet();
-
-		properties = loadPaths();
 
 		SearchResponse response;
 
@@ -245,30 +221,5 @@ public class MovieAccess {
 
 	public List<Movie> searchDocument() {
 		return searchDocument(null, null);
-	}
-
-	public Properties loadPaths() {
-
-		Properties result = null;
-		try {
-
-			ServletContext servletContext = (ServletContext) FacesContext
-					.getCurrentInstance().getExternalContext().getContext();
-			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println(path);
-			File file = new File(path);
-
-			FileInputStream fileInput = new FileInputStream(file);
-
-			Properties properties = new Properties();
-			properties.loadFromXML(fileInput);
-			fileInput.close();
-			result = properties;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return result;
 	}
 }
