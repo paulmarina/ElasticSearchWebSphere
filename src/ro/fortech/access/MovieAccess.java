@@ -47,13 +47,15 @@ public class MovieAccess {
 	private Properties properties = new Properties();
 
 	public MovieAccess() {
+		
 
-		properties = loadPaths();
+	}
 
+	public void init(Properties properties) {
+		this.properties = properties;
 		this.node = nodeBuilder().clusterName(
 				properties.getProperty(Constants.CLUSTER)).node();
 		this.client = node.client();
-
 	}
 
 	public Map<String, Object> createJsonDocument(Movie movie) {
@@ -69,8 +71,6 @@ public class MovieAccess {
 	}
 
 	public void updateDocument(Movie movie) {
-
-		properties = loadPaths();
 
 		/*
 		 * updateRequest updateRequest = new UpdateRequest();
@@ -90,8 +90,6 @@ public class MovieAccess {
 	}
 
 	public void upsertDocument(Movie movie) {
-
-		properties = loadPaths();
 
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
@@ -118,8 +116,6 @@ public class MovieAccess {
 
 	public Map<String, Object> getDocument(String id) {
 
-		properties = loadPaths();
-
 		/*
 		 * GetResponse getResponse = client
 		 * .prepareGet(properties.getProperty(Constants.INDEX),
@@ -144,8 +140,6 @@ public class MovieAccess {
 
 	public void deleteDocument(String id) {
 
-		properties = loadPaths();
-
 		client.prepareDelete(properties.getProperty(Constants.INDEX),
 				properties.getProperty(Constants.TYPE), id).execute()
 				.actionGet();
@@ -165,8 +159,6 @@ public class MovieAccess {
 		 */
 		// SearchResponse response =
 		// client.prepareSearch().setPostFilter(FilterBuilders.rangeFilter("year").from(2010).to(2015)).execute().actionGet();
-
-		properties = loadPaths();
 
 		SearchResponse response;
 
@@ -230,30 +222,5 @@ public class MovieAccess {
 
 	public List<Movie> searchDocument() {
 		return searchDocument(null, null);
-	}
-
-	public Properties loadPaths() {
-
-		Properties result = null;
-		try {
-
-			ServletContext servletContext = (ServletContext) FacesContext
-					.getCurrentInstance().getExternalContext().getContext();
-			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println(path);
-			File file = new File(path);
-
-			FileInputStream fileInput = new FileInputStream(file);
-
-			Properties properties = new Properties();
-			properties.loadFromXML(fileInput);
-			fileInput.close();
-			result = properties;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return result;
 	}
 }
