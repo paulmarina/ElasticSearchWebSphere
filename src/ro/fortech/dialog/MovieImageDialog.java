@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
 
 import ro.fortech.model.Movie;
 
@@ -17,11 +15,8 @@ public class MovieImageDialog implements Serializable {
 	private String imagePath;
 
 	public String displayImage(Movie movie) {
-		
-		
-		imagePath = "/rest/images/" + movie.getId();
-		System.out.println(imagePath);
 
+		imagePath = "/rest/images/" + movie.getId();
 		return "movieImage?faces-redirect=true";
 	}
 

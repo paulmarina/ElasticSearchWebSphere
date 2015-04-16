@@ -1,22 +1,21 @@
 package ro.fortech.service;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 
-import javax.imageio.ImageIO;
+import javax.activation.MimetypesFileTypeMap;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 
 import ro.fortech.access.MovieAccess;
 import ro.fortech.model.Movie;
@@ -28,39 +27,41 @@ public class ImageService {
 	@Inject
 	private MovieAccess movieAcc;
 
-	
 	@GET
 	@Path("{id}")
-	public BufferedImage getImage(@PathParam("id") String id, @Context ServletContext ctx) {
+	@Produces("image/jpg")
+	public Response getImage(@PathParam("id") String id,
+			@Context ServletContext ctx) {
 
-				
 		Properties properties;
 		try {
-			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX).getPath());
+			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX)
+					.getPath());
 			movieAcc.init(properties);
+
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
+
 		List<Movie> moviesList = movieAcc.searchDocument("id", id);
 		String imageName = moviesList.get(0).getImagine();
-		System.out.println("Nume imagine:" + imageName);
-		/*String finalPath = "/images/" + imageName;
 
-		System.out.println("Service");*/
-		
-		BufferedImage img = null;
+		File f = null;
+		String mt = "";
 
-		/*try {
-			img = ImageIO.read(new File(finalPath));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		try {
+			String myPath = ctx.getResource(Constants.IMAGE_PATH_JAX).getPath()
+					+ imageName;
+			System.out.println("MyPath: " + myPath);
+			f = new File(myPath);
+			mt = new MimetypesFileTypeMap().getContentType(f);
+
+		} catch (MalformedURLException e) {
+
 			e.printStackTrace();
-		}*/
+		}
 
-		return img;
+		return Response.ok(f, mt).build();
 
 	}
 
@@ -69,21 +70,8 @@ public class ImageService {
 		Properties result = null;
 		try {
 
-			/*URL resourceUrl = URL.class.getResource("/WEB-INF/classes/file1.xml");
-			try {
-				File resourceFile = new File(resourceUrl.toURI());
-				System.out.println("ResourcePath:" +resourceFile.getAbsolutePath());
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-		
 			File file = new File(preferencesPath);
-			System.out.println(file.getAbsolutePath());
-
 			FileInputStream fileInput = new FileInputStream(file);
-
 			Properties properties = new Properties();
 			properties.loadFromXML(fileInput);
 			fileInput.close();
@@ -96,5 +84,3 @@ public class ImageService {
 		return result;
 	}
 }
-
-
