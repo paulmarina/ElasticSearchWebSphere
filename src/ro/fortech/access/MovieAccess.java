@@ -179,10 +179,11 @@ public class MovieAccess {
 		SearchHit[] results = response.getHits().getHits();
 		for (SearchHit hit : results) {
 			Map<String, Object> partialResult = hit.getSource();
+			String id = hit.getId();
 
 			String localTitle = "";
 			String localDirector = "";
-			int localId = 0;
+			int localId = Integer.parseInt(hit.getId());
 			int localYear = 0;
 			String localImagine = "";
 
