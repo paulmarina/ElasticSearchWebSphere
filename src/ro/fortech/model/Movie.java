@@ -7,7 +7,7 @@ public class Movie {
 	private int year;
 	private int id;
 	private String imagine;
-
+	
 	public Movie(String title, String director, int year, int id,String imagine) {
 		super();
 		this.title = title;

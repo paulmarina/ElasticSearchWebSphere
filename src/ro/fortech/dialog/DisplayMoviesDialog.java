@@ -27,8 +27,18 @@ public class DisplayMoviesDialog implements Serializable {
 	@Inject
 	private DisplayMoviesController displayCtrl;
 	private List<Movie> moviesList;
+	private Movie newMovie;
+
+	public Movie getNewMovie() {
+		return newMovie;
+	}
+
+	public void setNewMovie(Movie newMovie) {
+		this.newMovie = newMovie;
+	}
 
 	public DisplayMoviesDialog() {
+		this.newMovie = new Movie("", "", 0, 0, "coffee.jpg");
 	}
 
 	@PostConstruct
@@ -75,6 +85,14 @@ public class DisplayMoviesDialog implements Serializable {
 		Boolean deleteSucceeded = displayCtrl.deleteMovie(String.valueOf(movie.getId()));
 		if (deleteSucceeded){
 			this.moviesList.remove(movie);
+		}
+		return "index.xhtml?faces-redirect=true";
+	}
+	
+	public String addMovie() {
+		Boolean addedSuccessfully = displayCtrl.addMovie(newMovie);
+		if (addedSuccessfully){
+			this.moviesList.add(newMovie);
 		}
 		return "index.xhtml?faces-redirect=true";
 	}

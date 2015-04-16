@@ -15,6 +15,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
@@ -74,7 +75,8 @@ public class MovieAccess {
 
 	}
 
-	public void upsertDocument(Movie movie) {
+	public Boolean upsertDocument(Movie movie) {
+		UpdateResponse ur = new UpdateResponse();
 
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
@@ -86,7 +88,7 @@ public class MovieAccess {
 						.getId())).doc(createJsonDocument(movie)).upsert(
 				indexRequest);
 		try {
-			client.update(updateRequest).get();
+			ur = client.update(updateRequest).get();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,6 +99,11 @@ public class MovieAccess {
 
 		client.close();
 
+		if (ur.isCreated()){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Map<String, Object> getDocument(String id) {
