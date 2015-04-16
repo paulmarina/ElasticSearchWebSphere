@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
@@ -32,7 +33,7 @@ public class ImageService {
 	@Produces("image/jpg")
 	public Response getImage(@PathParam("id") String id,
 			@Context ServletContext ctx) {
-
+		
 		Properties properties;
 		try {
 			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX)
@@ -50,7 +51,8 @@ public class ImageService {
 		String mt = "";
 
 		try {
-			String myPath = ctx.getResource(Constants.IMAGE_PATH_JAX).getPath()
+			String myPath = ctx.getResource("/").toURI()
+					.resolve(Constants.IMAGE_PATH_JAX).getPath()
 					+ imageName;
 			System.out.println("MyPath: " + myPath);
 			f = new File(myPath);
@@ -58,6 +60,9 @@ public class ImageService {
 
 		} catch (MalformedURLException e) {
 
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
