@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -138,12 +139,20 @@ public class MovieAccess {
 		return new HashMap<String, Object>();
 	}
 
-	public void deleteDocument(String id) {
+	public Boolean deleteDocument(String id) {
 
-		client.prepareDelete(properties.getProperty(Constants.INDEX),
+
+		DeleteResponse drb = client.prepareDelete(properties.getProperty(Constants.INDEX),
 				properties.getProperty(Constants.TYPE), id).execute()
 				.actionGet();
 		client.close();
+		// if id of movie is found
+		if (drb.isFound()){
+			return true;
+		}
+		else{
+			return false;
+		}
 
 	}
 
