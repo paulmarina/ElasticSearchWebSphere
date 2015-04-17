@@ -45,7 +45,7 @@ public class DisplayMoviesController {
 		return movieAccess.deleteDocument(id);
 	}
 
-	public Boolean addMovie(Movie movie){
-		return movieAccess.upsertDocument(movie);
+	public String addMovie(Movie movie){
+		return movieAccess.insertDocument(movie);
 	}
 }

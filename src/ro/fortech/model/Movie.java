@@ -4,11 +4,11 @@ public class Movie {
 
 	private String title;
 	private String director;
-	private int year;
-	private int id;
+	private Integer year;
+	private String id;
 	private String imagine;
 	
-	public Movie(String title, String director, int year, int id,String imagine) {
+	public Movie(String title, String director, Integer year, String id, String imagine) {
 		super();
 		this.title = title;
 		this.director = director;
@@ -34,19 +34,19 @@ public class Movie {
 		this.director = director;
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

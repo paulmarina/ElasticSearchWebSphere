@@ -38,7 +38,7 @@ public class DisplayMoviesDialog implements Serializable {
 	}
 
 	public DisplayMoviesDialog() {
-		this.newMovie = new Movie("", "", 0, 0, "coffee.jpg");
+		resetNewMovie();
 	}
 
 	@PostConstruct
@@ -54,6 +54,10 @@ public class DisplayMoviesDialog implements Serializable {
 
 	public void setMoviesList(List<Movie> moviesList) {
 		this.moviesList = moviesList;
+	}
+	
+	private void resetNewMovie(){
+		this.newMovie = new Movie("", "", null, null, "coffee.jpg");
 	}
 
 	public Properties loadPaths() {
@@ -90,10 +94,12 @@ public class DisplayMoviesDialog implements Serializable {
 	}
 	
 	public String addMovie() {
-		Boolean addedSuccessfully = displayCtrl.addMovie(newMovie);
-		if (addedSuccessfully){
+		String newMovieId = displayCtrl.addMovie(newMovie);
+		if (!newMovieId.equals("")){
+			newMovie.setId(newMovieId);
 			this.moviesList.add(newMovie);
 		}
+		resetNewMovie();
 		return "index.xhtml?faces-redirect=true";
 	}
 }

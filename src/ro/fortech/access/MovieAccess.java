@@ -12,7 +12,9 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -51,7 +53,7 @@ public class MovieAccess {
 		jsonDocument.put("title", movie.getTitle());
 		jsonDocument.put("director", movie.getDirector());
 		jsonDocument.put("year", movie.getYear());
-		jsonDocument.put("id", movie.getId());
+		// jsonDocument.put("id", movie.getId());
 		jsonDocument.put("imagine", movie.getImagine());
 		return jsonDocument;
 	}
@@ -75,18 +77,28 @@ public class MovieAccess {
 
 	}
 
+	public String insertDocument(Movie movie) {
+		IndexResponse ir = client
+				.prepareIndex(properties.getProperty(Constants.INDEX), properties.getProperty(Constants.TYPE))
+				.setSource(createJsonDocument(movie)).execute().actionGet();
+		if (ir.isCreated()) {
+			return ir.getId();
+		} else {
+			return "";
+		}
+	}
+
 	public Boolean upsertDocument(Movie movie) {
 		UpdateResponse ur = new UpdateResponse();
 
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
-				properties.getProperty(Constants.TYPE), String.valueOf(movie
-						.getId())).source(createJsonDocument(movie));
+				properties.getProperty(Constants.TYPE), movie.getId())
+				.source(createJsonDocument(movie));
 		UpdateRequest updateRequest = new UpdateRequest(
 				properties.getProperty(Constants.INDEX),
-				properties.getProperty(Constants.TYPE), String.valueOf(movie
-						.getId())).doc(createJsonDocument(movie)).upsert(
-				indexRequest);
+				properties.getProperty(Constants.TYPE), movie.getId()).doc(
+				createJsonDocument(movie)).upsert(indexRequest);
 		try {
 			ur = client.update(updateRequest).get();
 		} catch (InterruptedException e) {
@@ -99,7 +111,7 @@ public class MovieAccess {
 
 		client.close();
 
-		if (ur.isCreated()){
+		if (ur.isCreated()) {
 			return true;
 		} else {
 			return false;
@@ -166,6 +178,12 @@ public class MovieAccess {
 					.setTypes(properties.getProperty(Constants.TYPE)).execute()
 					.actionGet();
 
+		/*} else if (column.equals("id")){
+			GetResponse response2 = client.prepareGet()
+				    .setType(properties.getProperty(Constants.TYPE))// set the index type as well
+				    .setId(value)
+				    .execute()
+				    .actionGet();*/
 		} else {
 
 			response = client.prepareSearch()
@@ -179,12 +197,11 @@ public class MovieAccess {
 		SearchHit[] results = response.getHits().getHits();
 		for (SearchHit hit : results) {
 			Map<String, Object> partialResult = hit.getSource();
-			String id = hit.getId();
 
 			String localTitle = "";
 			String localDirector = "";
-			int localId = Integer.parseInt(hit.getId());
-			int localYear = 0;
+			String localId = hit.getId();
+			Integer localYear = null;
 			String localImagine = "";
 
 			for (Map.Entry<String, Object> entry : partialResult.entrySet()) {
@@ -193,8 +210,10 @@ public class MovieAccess {
 					localTitle = entry.getValue().toString();
 				} else if (entry.getKey().equals("director")) {
 					localDirector = entry.getValue().toString();
-				} else if (entry.getKey().equals("id")) {
-					localId = Integer.parseInt(entry.getValue().toString());
+					/*
+					 * } else if (entry.getKey().equals("id")) { localId =
+					 * Integer.parseInt(entry.getValue().toString());
+					 */
 				} else if (entry.getKey().equals("year")) {
 					localYear = Integer.parseInt(entry.getValue().toString());
 				} else if (entry.getKey().equals("imagine")) {
