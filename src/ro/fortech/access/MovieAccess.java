@@ -79,7 +79,8 @@ public class MovieAccess {
 
 	public String insertDocument(Movie movie) {
 		IndexResponse ir = client
-				.prepareIndex(properties.getProperty(Constants.INDEX), properties.getProperty(Constants.TYPE))
+				.prepareIndex(properties.getProperty(Constants.INDEX),
+						properties.getProperty(Constants.TYPE))
 				.setSource(createJsonDocument(movie)).execute().actionGet();
 		if (ir.isCreated()) {
 			return ir.getId();
@@ -155,7 +156,26 @@ public class MovieAccess {
 		} else {
 			return false;
 		}
+	}
 
+	public Movie getById(String id) {
+		GetResponse response = client.prepareGet()
+				.setIndex(properties.getProperty(Constants.INDEX))
+				.setType(properties.getProperty(Constants.TYPE)).setId(id)
+				.execute().actionGet();
+
+		Map<String, Object> hit = response.getSource();
+
+		String localTitle = hit.get("title").toString();
+		String localDirector = hit.get("director").toString();
+		Integer localYear = Integer.parseInt(hit.get("year").toString());
+		String localImagine = hit.get("imagine").toString();
+
+		Movie movie = new Movie(localTitle, localDirector, localYear, id,
+				localImagine);
+
+		client.close();
+		return movie;
 	}
 
 	public List<Movie> searchDocument(String column, String value) {
@@ -173,19 +193,11 @@ public class MovieAccess {
 
 		SearchResponse response;
 
-		if (value == null && column == null) {
+		if ((value == null && column == null)) {
 			response = client.prepareSearch()
 					.setTypes(properties.getProperty(Constants.TYPE)).execute()
 					.actionGet();
-
-		/*} else if (column.equals("id")){
-			GetResponse response2 = client.prepareGet()
-				    .setType(properties.getProperty(Constants.TYPE))// set the index type as well
-				    .setId(value)
-				    .execute()
-				    .actionGet();*/
 		} else {
-
 			response = client.prepareSearch()
 					.setTypes(properties.getProperty(Constants.TYPE))
 					.setQuery(QueryBuilders.matchQuery(column, value))
