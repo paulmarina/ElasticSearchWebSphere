@@ -53,7 +53,6 @@ public class MovieAccess {
 		jsonDocument.put("title", movie.getTitle());
 		jsonDocument.put("director", movie.getDirector());
 		jsonDocument.put("year", movie.getYear());
-		// jsonDocument.put("id", movie.getId());
 		jsonDocument.put("imagine", movie.getImagine());
 		return jsonDocument;
 	}
@@ -222,10 +221,6 @@ public class MovieAccess {
 					localTitle = entry.getValue().toString();
 				} else if (entry.getKey().equals("director")) {
 					localDirector = entry.getValue().toString();
-					/*
-					 * } else if (entry.getKey().equals("id")) { localId =
-					 * Integer.parseInt(entry.getValue().toString());
-					 */
 				} else if (entry.getKey().equals("year")) {
 					localYear = Integer.parseInt(entry.getValue().toString());
 				} else if (entry.getKey().equals("imagine")) {
