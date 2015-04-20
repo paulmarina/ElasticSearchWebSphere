@@ -10,15 +10,32 @@
 <h:body>
 	<h:form>
 		<h:panelGrid columns="2">
-			<h:outputLabel for="title">Movie Title:</h:outputLabel>
-			<h:inputText id="title" value="#{displayMoviesDialog.newMovie.title}" required="true"/>
+			<h:outputLabel for="title" value="*Movie Title: " title="Movie Title" />
+			<h:panelGroup>
+				<h:inputText id="title"
+					value="#{displayMoviesDialog.newMovie.title}" title="Movie Title"
+					tabindex="1" required="true"
+					requiredMessage="Movie title is required" />
+				<h:message id="m1" for="title" style="color:red" />
+			</h:panelGroup>
 
-			<h:outputLabel for="director">Movie Director:</h:outputLabel>
-			<h:inputText id="director" value="#{displayMoviesDialog.newMovie.director}" required="true"/>
+			<h:outputLabel for="director" value="*Movie Director: "
+				title="Movie Director" />
+			<h:panelGroup>
+				<h:inputText id="director"
+					value="#{displayMoviesDialog.newMovie.director}"
+					title="Movie director" tabindex="1" required="true"
+					requiredMessage="Movie director is required" />
+				<h:message id="m2" for="director" style="color:red" />
+			</h:panelGroup>
 
-			<h:outputLabel for="year">Movie Year:</h:outputLabel>
-			<h:inputText id="year" value="#{displayMoviesDialog.newMovie.year}" required="true"/>
-		
+			<h:outputLabel for="year" value="*Movie Year: " title="Movie Year" />
+			<h:panelGroup>
+				<h:inputText id="year" value="#{displayMoviesDialog.newMovie.year}"
+					title="Movie Year" tabindex="1" required="true"
+					requiredMessage="Movie year is required" />
+				<h:message id="m3" for="year" style="color:red" />
+			</h:panelGroup>
 		</h:panelGrid>
 		<h:commandButton value="Add"
 			action="#{displayMoviesDialog.addMovie()}" />
