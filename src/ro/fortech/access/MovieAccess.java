@@ -10,7 +10,9 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -49,7 +51,7 @@ public class MovieAccess {
 		jsonDocument.put("title", movie.getTitle());
 		jsonDocument.put("director", movie.getDirector());
 		jsonDocument.put("year", movie.getYear());
-		jsonDocument.put("id", movie.getId());
+		// jsonDocument.put("id", movie.getId());
 		jsonDocument.put("imagine", movie.getImagine());
 		return jsonDocument;
 	}
@@ -73,20 +75,30 @@ public class MovieAccess {
 
 	}
 
+	public String insertDocument(Movie movie) {
+		IndexResponse ir = client
+				.prepareIndex(properties.getProperty(Constants.INDEX),
+						properties.getProperty(Constants.TYPE))
+				.setSource(createJsonDocument(movie)).execute().actionGet();
+		if (ir.isCreated()) {
+			return ir.getId();
+		} else {
+			return "";
+		}
+	}
+
 	public Boolean upsertDocument(Movie movie) {
 		UpdateResponse ur = new UpdateResponse();
 
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
-				properties.getProperty(Constants.TYPE), String.valueOf(movie
-						.getId())).source(createJsonDocument(movie));
-		
+
+				properties.getProperty(Constants.TYPE), movie.getId())
+				.source(createJsonDocument(movie));
 		UpdateRequest updateRequest = new UpdateRequest(
 				properties.getProperty(Constants.INDEX),
-				properties.getProperty(Constants.TYPE), String.valueOf(movie
-						.getId())).doc(createJsonDocument(movie)).upsert(
-				indexRequest);
-		
+				properties.getProperty(Constants.TYPE), movie.getId()).doc(
+				createJsonDocument(movie)).upsert(indexRequest);
 		try {
 			ur = client.update(updateRequest).get();
 		} catch (InterruptedException e) {
@@ -99,7 +111,7 @@ public class MovieAccess {
 
 		client.close();
 
-		if (ur.isCreated()){
+		if (ur.isCreated()) {
 			return true;
 		} else {
 			return false;
@@ -143,7 +155,26 @@ public class MovieAccess {
 		} else {
 			return false;
 		}
+	}
 
+	public Movie getById(String id) {
+		GetResponse response = client.prepareGet()
+				.setIndex(properties.getProperty(Constants.INDEX))
+				.setType(properties.getProperty(Constants.TYPE)).setId(id)
+				.execute().actionGet();
+
+		Map<String, Object> hit = response.getSource();
+
+		String localTitle = hit.get("title").toString();
+		String localDirector = hit.get("director").toString();
+		Integer localYear = Integer.parseInt(hit.get("year").toString());
+		String localImagine = hit.get("imagine").toString();
+
+		Movie movie = new Movie(localTitle, localDirector, localYear, id,
+				localImagine);
+
+		client.close();
+		return movie;
 	}
 
 	public List<Movie> searchDocument(String column, String value) {
@@ -161,13 +192,11 @@ public class MovieAccess {
 
 		SearchResponse response;
 
-		if (value == null && column == null) {
+		if ((value == null && column == null)) {
 			response = client.prepareSearch()
 					.setTypes(properties.getProperty(Constants.TYPE)).execute()
 					.actionGet();
-
 		} else {
-
 			response = client.prepareSearch()
 					.setTypes(properties.getProperty(Constants.TYPE))
 					.setQuery(QueryBuilders.matchQuery(column, value))
@@ -182,8 +211,8 @@ public class MovieAccess {
 
 			String localTitle = "";
 			String localDirector = "";
-			int localId = 0;
-			int localYear = 0;
+			String localId = hit.getId();
+			Integer localYear = null;
 			String localImagine = "";
 
 			for (Map.Entry<String, Object> entry : partialResult.entrySet()) {
@@ -192,8 +221,10 @@ public class MovieAccess {
 					localTitle = entry.getValue().toString();
 				} else if (entry.getKey().equals("director")) {
 					localDirector = entry.getValue().toString();
-				} else if (entry.getKey().equals("id")) {
-					localId = Integer.parseInt(entry.getValue().toString());
+					/*
+					 * } else if (entry.getKey().equals("id")) { localId =
+					 * Integer.parseInt(entry.getValue().toString());
+					 */
 				} else if (entry.getKey().equals("year")) {
 					localYear = Integer.parseInt(entry.getValue().toString());
 				} else if (entry.getKey().equals("imagine")) {

@@ -45,8 +45,8 @@ public class ImageService {
 			e1.printStackTrace();
 		}
 
-		List<Movie> moviesList = movieAcc.searchDocument("id", id);
-		String imageName = moviesList.get(0).getImagine();
+		Movie movie =  movieAcc.getById(id);
+		String imageName = movie.getImagine();
 
 		File f = null;
 		String mt = "";
