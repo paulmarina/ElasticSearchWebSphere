@@ -5,5 +5,6 @@
 	<entry key="INDEX">svu</entry>
 	<entry key="TYPE">movie</entry>
 	<entry key="CLUSTER">mormon</entry>
+	<entry key="IMAGE_TYPE">imagine</entry>
 	
 </properties>

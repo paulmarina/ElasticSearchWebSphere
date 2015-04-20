@@ -27,7 +27,8 @@ public class ImageService {
 
 	@Inject
 	private MovieAccess movieAcc;
-
+	
+	
 	@GET
 	@Path("{id}")
 	@Produces("image/jpg")
