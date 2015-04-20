@@ -26,6 +26,16 @@ public class UploadImageDialog implements Serializable{
 	@Inject
 	private ImageAccess imgAcc;
 	
+	private Image image;
+	
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
 	public String uploadImage(Movie movie, String imageName) {
 
 		Image image = new Image(imageName, movie.getId());

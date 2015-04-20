@@ -48,4 +48,15 @@ public class DisplayMoviesController {
 	public String addMovie(Movie movie){
 		return movieAccess.insertDocument(movie);
 	}
+	
+	public Movie editMovie(String id) {
+
+		return movieAccess.getById(id);
+	}
+
+	public void updateMovie(Movie movie) {
+
+		movieAccess.updateDocument(movie);
+	}
+	
 }

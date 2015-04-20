@@ -47,7 +47,7 @@
 
 				<rich:column breakBefore="true">
 					<f:facet name="header">Actions</f:facet>
-					<h:commandButton value="Edit" />
+					<h:commandButton value="Edit" action="#{editMovieDialog.editMovie(movie)}" />
 					<h:commandButton value="Delete"
 						action="#{displayMoviesDialog.deleteMovie(movie)}" />
 					<h:commandButton value="View" />
