@@ -1,7 +1,5 @@
 package ro.fortech.access;
 
-//import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.util.ArrayList;
@@ -93,6 +91,7 @@ public class MovieAccess {
 
 		IndexRequest indexRequest = new IndexRequest(
 				properties.getProperty(Constants.INDEX),
+
 				properties.getProperty(Constants.TYPE), movie.getId())
 				.source(createJsonDocument(movie));
 		UpdateRequest updateRequest = new UpdateRequest(
