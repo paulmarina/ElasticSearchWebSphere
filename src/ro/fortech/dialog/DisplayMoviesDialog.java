@@ -27,16 +27,12 @@ public class DisplayMoviesDialog implements Serializable {
 	@Inject
 	private DisplayMoviesController displayCtrl;
 
-	private Movie newMovie;
+
 
 	public DisplayMoviesDialog() {
-		resetNewMovie();
 
 	}
 
-	private void resetNewMovie() {
-		this.newMovie = new Movie("", "", null, null, "coffee.jpg");
-	}
 
 	@PostConstruct
 	public void init3000() {
@@ -79,17 +75,5 @@ public class DisplayMoviesDialog implements Serializable {
 		return "index.xhtml?faces-redirect=true";
 	}
 
-	public String addMovie() {
-		displayCtrl.addMovie(newMovie);
-		resetNewMovie();
-		return "editMovie.xhtml?faces-redirect=true";
-	}
-
-	public Movie getNewMovie() {
-		return newMovie;
-	}
-
-	public void setNewMovie(Movie newMovie) {
-		this.newMovie = newMovie;
-	}
+	
 }
