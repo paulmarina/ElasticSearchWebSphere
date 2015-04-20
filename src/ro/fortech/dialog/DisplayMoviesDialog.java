@@ -26,38 +26,27 @@ public class DisplayMoviesDialog implements Serializable {
 
 	@Inject
 	private DisplayMoviesController displayCtrl;
-	private List<Movie> moviesList;
+
 	private Movie newMovie;
-
-	public Movie getNewMovie() {
-		return newMovie;
-	}
-
-	public void setNewMovie(Movie newMovie) {
-		this.newMovie = newMovie;
-	}
 
 	public DisplayMoviesDialog() {
 		resetNewMovie();
+
+	}
+
+	private void resetNewMovie() {
+		this.newMovie = new Movie("", "", null, null, "coffee.jpg");
 	}
 
 	@PostConstruct
 	public void init3000() {
 		Properties properties = loadPaths();
 		displayCtrl.init(properties);
-		setMoviesList(displayCtrl.displayMovies());
+		displayCtrl.setMoviesList(displayCtrl.displayMovies());
 	}
 
-	public List<Movie> getMoviesList() {
-		return moviesList;
-	}
-
-	public void setMoviesList(List<Movie> moviesList) {
-		this.moviesList = moviesList;
-	}
-	
-	private void resetNewMovie(){
-		this.newMovie = new Movie("", "", null, null, "coffee.jpg");
+	public List<Movie> displayMoviesList() {
+		return displayCtrl.getMoviesList();
 	}
 
 	public Properties loadPaths() {
@@ -86,20 +75,21 @@ public class DisplayMoviesDialog implements Serializable {
 	}
 
 	public String deleteMovie(Movie movie) {
-		Boolean deleteSucceeded = displayCtrl.deleteMovie(String.valueOf(movie.getId()));
-		if (deleteSucceeded){
-			this.moviesList.remove(movie);
-		}
+		displayCtrl.deleteMovie(movie);
 		return "index.xhtml?faces-redirect=true";
 	}
-	
+
 	public String addMovie() {
-		String newMovieId = displayCtrl.addMovie(newMovie);
-		if (!newMovieId.equals("")){
-			newMovie.setId(newMovieId);
-			this.moviesList.add(newMovie);
-		}
+		displayCtrl.addMovie(newMovie);
 		resetNewMovie();
 		return "index.xhtml?faces-redirect=true";
+	}
+
+	public Movie getNewMovie() {
+		return newMovie;
+	}
+
+	public void setNewMovie(Movie newMovie) {
+		this.newMovie = newMovie;
 	}
 }

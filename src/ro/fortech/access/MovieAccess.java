@@ -57,20 +57,21 @@ public class MovieAccess {
 
 	public void updateDocument(Movie movie) {
 
-		/*
-		 * updateRequest updateRequest = new UpdateRequest();
-		 * 
-		 * updateRequest.index(properties.getProperty(Constants.INDEX));
-		 * updateRequest.type(properties.getProperty(Constants.TYPE));
-		 * updateRequest.id(String.valueOf(movie.getId()));
-		 * updateRequest.doc(createJsonDocument(movie)); try {
-		 * client.update(updateRequest).get(); } catch (InterruptedException e)
-		 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
-		 * (ExecutionException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 * 
-		 * client.close();
-		 */
+		UpdateRequest updateRequest = new UpdateRequest();
+
+		updateRequest.index(properties.getProperty(Constants.INDEX));
+		updateRequest.type(properties.getProperty(Constants.TYPE));
+		updateRequest.id(movie.getId());
+		updateRequest.doc(createJsonDocument(movie));
+		try {
+			client.update(updateRequest).get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		client.close();
 
 	}
 
