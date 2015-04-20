@@ -100,6 +100,6 @@ public class DisplayMoviesDialog implements Serializable {
 			this.moviesList.add(newMovie);
 		}
 		resetNewMovie();
-		return "index.xhtml?faces-redirect=true";
+		return "editMovie.xhtml?faces-redirect=true";
 	}
 }

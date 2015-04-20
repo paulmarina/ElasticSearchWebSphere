@@ -13,9 +13,11 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import ro.fortech.access.ImageAccess;
+import ro.fortech.model.Image;
+import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
-@ManagedBean(name = "movieImageDialog")
+@ManagedBean(name = "uploadImageDialog")
 @SessionScoped
 public class UploadImageDialog implements Serializable{
 	
@@ -23,6 +25,18 @@ public class UploadImageDialog implements Serializable{
 	
 	@Inject
 	private ImageAccess imgAcc;
+	
+	public String uploadImage(Movie movie, String imageName) {
+
+		Image image = new Image(imageName, movie.getId());
+		Properties properties = loadPaths();
+		imgAcc.init(properties);
+
+		imgAcc.addImage(image);
+
+		//imagePath = "/rest/images/" + movie.getId();
+		return "movieImage?faces-redirect=true";
+	}
 
 	public Properties loadPaths() {
 
