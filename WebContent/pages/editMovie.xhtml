@@ -11,16 +11,16 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="title">Movie Title:</h:outputLabel>
-			<h:inputText id="title" value="#{displayMoviesDialog.newMovie.title}" required="true"/>
+			<h:inputText id="title" value="#{editMovieDialog.movie.title}" required="true"/>
 
 			<h:outputLabel for="director">Movie Director:</h:outputLabel>
-			<h:inputText id="director" value="#{displayMoviesDialog.newMovie.director}" required="true"/>
+			<h:inputText id="director" value="#{editMovieDialog.movie.director}" required="true"/>
 
 			<h:outputLabel for="year">Movie Year:</h:outputLabel>
-			<h:inputText id="year" value="#{displayMoviesDialog.newMovie.year}" required="true"/>
+			<h:inputText id="year" value="#{editMovieDialog.movie.year}" required="true"/>
 		</h:panelGrid>
 		<h:commandButton value="Save changes"
-			action="#{displayMoviesDialog.addMovie()}" />
+			action="#{editMovieDialog.updateMovie(editMovieDialog.movie)}" />
 	</h:form>
 </h:body>
 </html>

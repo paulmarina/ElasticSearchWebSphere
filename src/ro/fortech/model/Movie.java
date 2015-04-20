@@ -16,6 +16,10 @@ public class Movie {
 		this.id = id;
 		this.imagine = imagine;
 	}
+	
+	public Movie(){
+		
+	}
 
 	public String getTitle() {
 		
