@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -93,6 +94,23 @@ public class ImageAccess {
 		client.close();
 		return result;
 
+	}
+	
+	public Image getById(String id) {
+		GetResponse response = client.prepareGet()
+				.setIndex(properties.getProperty(Constants.INDEX))
+				.setType(properties.getProperty(Constants.IMAGE_TYPE)).setId(id)
+				.execute().actionGet();
+
+		Map<String, Object> hit = response.getSource();
+
+		String localName = hit.get("name").toString();
+		String localMovieId = hit.get("movieId").toString();
+
+		Image image = new Image(localName, localMovieId, id);
+
+		client.close();
+		return image;
 	}
 
 }

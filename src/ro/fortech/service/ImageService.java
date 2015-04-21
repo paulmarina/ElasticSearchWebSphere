@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -44,10 +43,8 @@ public class ImageService {
 			e1.printStackTrace();
 		}
 
-		List<Image> imageList = imgAcc.searchDocument("movieId", id);
 
-		// display just one image
-		String imageName = imageList.get(0).getName();
+		Image image = imgAcc.getById(id);
 
 		File f = null;
 		String mt = "";
@@ -55,7 +52,7 @@ public class ImageService {
 		try {
 			String myPath = ctx.getResource("/").toURI()
 					.resolve(Constants.IMAGE_PATH_JAX).getPath()
-					+ imageName;
+					+ image.getName();
 			f = new File(myPath);
 			mt = new MimetypesFileTypeMap().getContentType(f);
 
