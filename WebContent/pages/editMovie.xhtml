@@ -4,12 +4,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head></h:head>
 <h:body>
 
-<center>
+	<center>
 		<h:outputText value="Edit Movie Information" styleClass="header"
 			rendered="#{editMovieDialog.isEditMode}">
 		</h:outputText>
@@ -34,7 +35,8 @@
 				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
-			<h:panelGrid columns="2" id="uploadPanel">
+			
+			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode}">
 				<rich:fileUpload fileUploadListener="#{uploadImageDialog.listener}"
 					id="upload" acceptedTypes=".jpg, .gif, .png, .bmp"
 					ontyperejected="alert('Only JPG, GIF, PNG and BMP files are accepted');"
@@ -71,9 +73,14 @@
 						render="info, upload" value="Clear Uploaded Data"
 						rendered="#{uploadImageDialog.size>0}" />
 				</h:panelGroup>
-			</h:panelGrid>
-			
-			<h:graphicImage value="#{editMovieDialog.imagePath}" />
+			</h:panelGrid> 
+
+			<ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
+				<h:panelGroup>
+					<h:graphicImage value="/rest/images/#{image.id}" rendered="#{!editMovieDialog.isEditMode}"/>
+				</h:panelGroup>
+			</ui:repeat>
+
 
 		</h:panelGrid>
 		<h:commandButton value="Save changes"

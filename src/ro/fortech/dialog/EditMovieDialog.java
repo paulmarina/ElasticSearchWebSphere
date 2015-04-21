@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import ro.fortech.business.DisplayMoviesController;
+import ro.fortech.business.ImageController;
+import ro.fortech.model.Image;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
@@ -28,10 +31,13 @@ public class EditMovieDialog implements Serializable {
 
 	@Inject
 	private DisplayMoviesController displayCtrl;
+	@Inject
+	private ImageController imgCtrl;
 
 	private boolean isEditMode;
 
 	private String imagePath;
+	private List<Image> imagesForMovie;
 
 	public EditMovieDialog() {
 		
@@ -49,7 +55,17 @@ public class EditMovieDialog implements Serializable {
 
 	public String editMovie(Movie movie) {
 
-		imagePath = "/rest/images/" + movie.getId();
+		Properties properties = loadPaths();
+		imgCtrl.init(properties);
+		imagesForMovie = imgCtrl.displayImages(movie);
+
+		/*
+		 * for (Image image : imagesForMovie) {
+		 * 
+		 * imagePath = "/rest/images/" + image.getId();
+		 * 
+		 * }
+		 */
 
 		setMovie(displayCtrl.editMovie(movie.getId()));
 		return "editMovie?faces-redirect=true";
@@ -122,6 +138,14 @@ public class EditMovieDialog implements Serializable {
 		}
 
 		return result;
+	}
+
+	public List<Image> getImagesForMovie() {
+		return imagesForMovie;
+	}
+
+	public void setImagesPath(List<Image> imagesForMovie) {
+		this.imagesForMovie = imagesForMovie;
 	}
 
 }
