@@ -24,6 +24,4 @@ public class ImageController {
 		
 		return imgAcc.searchDocument("movieId", movie.getId());
 	}
-	
-
 }
