@@ -4,12 +4,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head></h:head>
 <h:body>
 
-<center>
+	<center>
 		<h:outputText value="Edit Movie Information" styleClass="header"
 			rendered="#{editMovieDialog.isEditMode}">
 		</h:outputText>
@@ -33,10 +34,53 @@
 			<h:inputText id="year" value="#{editMovieDialog.movie.year}"
 				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
-			<!-- 			<a4j:mediaOutput element="image" mimeType="image/jpeg"
-				createContent="#{uploadImageDialog.image}" value="#{row}"
-				style="width:100px; height:100px;" cacheable="false">
-			</a4j:mediaOutput> -->
+			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
+			
+			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode}">
+				<rich:fileUpload fileUploadListener="#{uploadImageDialog.listener}"
+					id="upload" acceptedTypes=".jpg, .gif, .png, .bmp"
+					ontyperejected="alert('Only JPG, GIF, PNG and BMP files are accepted');"
+					maxFilesQuantity="5">
+					<a4j:ajax event="uploadcomplete" render="uploadInfo" />
+				</rich:fileUpload>
+				<h:panelGroup id="uploadInfo" layout="block">
+					<rich:panel bodyClass="info">
+						<f:facet name="header">
+							<h:outputText value="Uploaded Files Info" />
+						</f:facet>
+						<h:outputText value="No files currently uploaded"
+							rendered="#{uploadImageDialog.size==0}" />
+						<rich:dataGrid columns="1" value="#{uploadImageDialog.images}"
+							var="image" rowKeyVar="row">
+							<rich:panel bodyClass="rich-laguna-panel-no-header">
+								<h:panelGrid columns="2">
+									<a4j:mediaOutput element="img" mimeType="image/jpeg"
+										createContent="#{uploadImageDialog.paint}" value="#{image.movieId}"
+										style="width:100px; height:100px;" cacheable="false">
+									</a4j:mediaOutput>
+									<h:panelGrid columns="2">
+										<h:outputText value="File Name:" />
+										<h:outputText value="#{image.name}" />
+										<h:outputText value="File Length(bytes):" />
+										<h:outputText value="#{image.length}" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</rich:panel>
+						</rich:dataGrid>
+					</rich:panel>
+					<br />
+					<a4j:commandButton action="#{uploadImageDialog.clearUploadData}"
+						render="info, upload" value="Clear Uploaded Data"
+						rendered="#{uploadImageDialog.size>0}" />
+				</h:panelGroup>
+			</h:panelGrid> 
+
+			<ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
+				<h:panelGroup>
+					<h:graphicImage value="/rest/images/#{image.id}" rendered="#{!editMovieDialog.isEditMode}"/>
+				</h:panelGroup>
+			</ui:repeat>
+
 
 		</h:panelGrid>
 		<h:commandButton value="Save changes"

@@ -9,11 +9,8 @@ import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import ro.fortech.access.ImageAccess;
-import ro.fortech.model.Image;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
@@ -23,16 +20,16 @@ public class MovieImageDialog implements Serializable {
 
 	private static final long serialVersionUID = 8621173128034519586L;
 	private String imagePath;
-	@Inject
+	/*@Inject
 	private ImageAccess imgAcc;
-
+*/
 	public String displayImage(Movie movie) {
 
-		Image image = new Image("coffee7.jpg", "AUzHQlLnjbegHe6f4akV");
+		/*Image image = new Image("coffee.jpg", "AUzWgp7-vDefbL3DdFC9");
 		Properties properties = loadPaths();
 		imgAcc.init(properties);
 
-		imgAcc.addImage(image);
+		imgAcc.addImage(image);*/
 
 		imagePath = "/rest/images/" + movie.getId();
 		return "movieImage?faces-redirect=true";
@@ -54,7 +51,6 @@ public class MovieImageDialog implements Serializable {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println("HEREEE" + path);
 			File file = new File(path);
 
 			FileInputStream fileInput = new FileInputStream(file);

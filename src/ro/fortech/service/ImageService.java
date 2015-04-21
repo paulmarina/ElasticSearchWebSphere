@@ -17,35 +17,34 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
-import ro.fortech.access.MovieAccess;
-import ro.fortech.model.Movie;
+import ro.fortech.access.ImageAccess;
+import ro.fortech.model.Image;
 import ro.fortech.utils.Constants;
 
 @Path("images")
 public class ImageService {
 
 	@Inject
-	private MovieAccess movieAcc;
-	
-	
+	private ImageAccess imgAcc;
+
 	@GET
 	@Path("{id}")
 	@Produces("image/jpg")
 	public Response getImage(@PathParam("id") String id,
 			@Context ServletContext ctx) {
-		
+
 		Properties properties;
 		try {
 			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX)
 					.getPath());
-			movieAcc.init(properties);
+			imgAcc.init(properties);
 
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
 
-		Movie movie =  movieAcc.getById(id);
-		String imageName = movie.getImagine();
+
+		Image image = imgAcc.getById(id);
 
 		File f = null;
 		String mt = "";
@@ -53,8 +52,7 @@ public class ImageService {
 		try {
 			String myPath = ctx.getResource("/").toURI()
 					.resolve(Constants.IMAGE_PATH_JAX).getPath()
-					+ imageName;
-			System.out.println("MyPath: " + myPath);
+					+ image.getName();
 			f = new File(myPath);
 			mt = new MimetypesFileTypeMap().getContentType(f);
 
