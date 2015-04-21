@@ -27,16 +27,12 @@ public class DisplayMoviesDialog implements Serializable {
 	@Inject
 	private DisplayMoviesController displayCtrl;
 
-	private Movie newMovie;
+
 
 	public DisplayMoviesDialog() {
-		resetNewMovie();
 
 	}
 
-	private void resetNewMovie() {
-		this.newMovie = new Movie("", "", null, null, "coffee.jpg");
-	}
 
 	@PostConstruct
 	public void init3000() {
@@ -57,7 +53,6 @@ public class DisplayMoviesDialog implements Serializable {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println("HEREEE" + path);
 			File file = new File(path);
 
 			FileInputStream fileInput = new FileInputStream(file);
@@ -79,17 +74,5 @@ public class DisplayMoviesDialog implements Serializable {
 		return "index.xhtml?faces-redirect=true";
 	}
 
-	public String addMovie() {
-		displayCtrl.addMovie(newMovie);
-		resetNewMovie();
-		return "editMovie.xhtml?faces-redirect=true";
-	}
-
-	public Movie getNewMovie() {
-		return newMovie;
-	}
-
-	public void setNewMovie(Movie newMovie) {
-		this.newMovie = newMovie;
-	}
+	
 }

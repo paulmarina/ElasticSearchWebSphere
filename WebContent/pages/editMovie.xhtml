@@ -8,19 +8,30 @@
 
 <h:head></h:head>
 <h:body>
+
+<center>
+		<h:outputText value="Edit Movie Information" styleClass="header"
+			rendered="#{editMovieDialog.isEditMode}">
+		</h:outputText>
+		<h:outputText value="View Movie Information" styleClass="header"
+			rendered="#{!editMovieDialog.isEditMode}">
+		</h:outputText>
+	</center>
+
+
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="title">Movie Title:</h:outputLabel>
 			<h:inputText id="title" value="#{editMovieDialog.movie.title}"
-				required="true" />
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
 			<h:outputLabel for="director">Movie Director:</h:outputLabel>
 			<h:inputText id="director" value="#{editMovieDialog.movie.director}"
-				required="true" />
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
 			<h:outputLabel for="year">Movie Year:</h:outputLabel>
-			<h:inputText id="year" value="#{displayMoviesDialog.newMovie.year}"
-				required="true" />
+			<h:inputText id="year" value="#{editMovieDialog.movie.year}"
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
 			<h:panelGrid columns="2" id="uploadPanel">
@@ -61,10 +72,13 @@
 						rendered="#{uploadImageDialog.size>0}" />
 				</h:panelGroup>
 			</h:panelGrid>
+			
+			<h:graphicImage value="#{editMovieDialog.imagePath}" />
 
 		</h:panelGrid>
 		<h:commandButton value="Save changes"
-			action="#{editMovieDialog.updateMovie(editMovieDialog.movie)}" />
+			action="#{editMovieDialog.updateMovie(editMovieDialog.movie)}"
+			rendered="#{editMovieDialog.isEditMode}" />
 	</h:form>
 </h:body>
 </html>

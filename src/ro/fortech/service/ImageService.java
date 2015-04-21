@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -17,35 +18,36 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
-import ro.fortech.access.MovieAccess;
-import ro.fortech.model.Movie;
+import ro.fortech.access.ImageAccess;
+import ro.fortech.model.Image;
 import ro.fortech.utils.Constants;
 
 @Path("images")
 public class ImageService {
 
 	@Inject
-	private MovieAccess movieAcc;
-	
-	
+	private ImageAccess imgAcc;
+
 	@GET
 	@Path("{id}")
 	@Produces("image/jpg")
 	public Response getImage(@PathParam("id") String id,
 			@Context ServletContext ctx) {
-		
+
 		Properties properties;
 		try {
 			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX)
 					.getPath());
-			movieAcc.init(properties);
+			imgAcc.init(properties);
 
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
 
-		Movie movie =  movieAcc.getById(id);
-		String imageName = movie.getImagine();
+		List<Image> imageList = imgAcc.searchDocument("movieId", id);
+
+		// display just one image
+		String imageName = imageList.get(0).getName();
 
 		File f = null;
 		String mt = "";
@@ -54,7 +56,6 @@ public class ImageService {
 			String myPath = ctx.getResource("/").toURI()
 					.resolve(Constants.IMAGE_PATH_JAX).getPath()
 					+ imageName;
-			System.out.println("MyPath: " + myPath);
 			f = new File(myPath);
 			mt = new MimetypesFileTypeMap().getContentType(f);
 
