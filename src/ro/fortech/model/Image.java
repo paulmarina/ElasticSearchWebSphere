@@ -6,7 +6,14 @@ public class Image {
 	private String movieId;
 	private String id;
 
-	public Image(String name, String movieId) {
+	public Image(String name, String movieId, String id) {
+		
+		this.name = name;
+		this.movieId = movieId;
+		this.id = id;
+	}
+	
+public Image(String name, String movieId) {
 		
 		this.name = name;
 		this.movieId = movieId;

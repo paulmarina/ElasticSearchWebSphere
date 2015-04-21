@@ -73,6 +73,8 @@ public class ImageAccess {
 
 			String localName = "";
 			String localMovieId = "";
+			String localId = hit.getId();
+			;
 
 			for (Map.Entry<String, Object> entry : partialResult.entrySet()) {
 
@@ -83,15 +85,14 @@ public class ImageAccess {
 				}
 
 			}
-			Image image = new Image(localName, localMovieId);
+			Image image = new Image(localName, localMovieId,localId);
 
 			result.add(image);
-			
+
 		}
 		client.close();
 		return result;
 
 	}
-	
 
 }
