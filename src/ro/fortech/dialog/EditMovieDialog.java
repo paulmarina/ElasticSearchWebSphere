@@ -81,7 +81,7 @@ public class EditMovieDialog implements Serializable {
 
 		String buttonId = event.getComponent().getId();
 
-		if (buttonId.equals("edit")) {
+		if (buttonId.equals("edit") || buttonId.equals("addButton")) {
 			isEditMode = true;
 		}
 
