@@ -12,19 +12,26 @@
 		<h:panelGrid columns="2">
 			<h:outputLabel for="title" value="*Movie Title: " title="Movie Title" />
 			<h:panelGroup>
-				<h:inputText id="title"
+				<!-- Below are validation messages inside jsf -->
+				<!-- <h:inputText id="title"
 					value="#{addMovieDialog.newMovie.title}" title="Movie Title"
 					tabindex="1" required="true"
 					requiredMessage="Movie title is required" />
+				<h:message id="m1" for="title" style="color:red" /> -->
+
+				<!-- Below are validation messages from bean -->
+				<h:inputText id="title" value="#{addMovieDialog.newMovie.title}"
+					title="Movie Title" tabindex="1" />
 				<h:message id="m1" for="title" style="color:red" />
+
 			</h:panelGroup>
 
 			<h:outputLabel for="director" value="*Movie Director: "
 				title="Movie Director" />
 			<h:panelGroup>
 				<h:inputText id="director"
-					value="#{addMovieDialog.newMovie.director}"
-					title="Movie director" tabindex="1" required="true"
+					value="#{addMovieDialog.newMovie.director}" title="Movie director"
+					tabindex="1" required="true"
 					requiredMessage="Movie director is required" />
 				<h:message id="m2" for="director" style="color:red" />
 			</h:panelGroup>
@@ -37,8 +44,7 @@
 				<h:message id="m3" for="year" style="color:red" />
 			</h:panelGroup>
 		</h:panelGrid>
-		<h:commandButton value="Add"
-			action="#{addMovieDialog.addMovie()}" />
+		<h:commandButton value="Add" action="#{addMovieDialog.addMovie()}" />
 	</h:form>
 </h:body>
 </html>
