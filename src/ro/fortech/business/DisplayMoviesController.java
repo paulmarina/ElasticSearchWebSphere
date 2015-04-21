@@ -16,6 +16,15 @@ public class DisplayMoviesController {
 	private MovieAccess movieAccess;
 
 	private List<Movie> moviesList;
+	private Movie addedMovie;
+	
+	public Movie getAddedMovie() {
+		return addedMovie;
+	}
+
+	public void setAddedMovie(Movie addedMovie) {
+		this.addedMovie = addedMovie;
+	}
 
 	public DisplayMoviesController() {
 
@@ -59,8 +68,8 @@ public class DisplayMoviesController {
 		if (!newMovieId.equals("")) {
 			movie.setId(newMovieId);
 			moviesList.add(movie);
+			this.addedMovie = movie;
 		}
-
 	}
 
 	public Movie editMovie(String id) {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -33,8 +34,17 @@ public class EditMovieDialog implements Serializable {
 	private String imagePath;
 
 	public EditMovieDialog() {
-
-		this.setMovie(new Movie());
+		
+	}
+	
+	@PostConstruct
+	public void init3(){
+		Movie editedMovie = displayCtrl.getAddedMovie() ;
+		if (editedMovie != null) {
+			this.setMovie(editedMovie);
+		} else {
+			this.setMovie(new Movie());
+		}
 	}
 
 	public String editMovie(Movie movie) {
