@@ -53,7 +53,6 @@ public class DisplayMoviesDialog implements Serializable {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println("HEREEE" + path);
 			File file = new File(path);
 
 			FileInputStream fileInput = new FileInputStream(file);

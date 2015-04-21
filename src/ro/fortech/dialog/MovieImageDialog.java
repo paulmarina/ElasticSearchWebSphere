@@ -28,7 +28,7 @@ public class MovieImageDialog implements Serializable {
 
 	public String displayImage(Movie movie) {
 
-		Image image = new Image("coffee7.jpg", "AUzHQlLnjbegHe6f4akV");
+		Image image = new Image("coffee.jpg", "AUzWgp7-vDefbL3DdFC9");
 		Properties properties = loadPaths();
 		imgAcc.init(properties);
 
@@ -54,7 +54,6 @@ public class MovieImageDialog implements Serializable {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			String path = servletContext.getRealPath(Constants.XML_PATH);
-			System.out.println("HEREEE" + path);
 			File file = new File(path);
 
 			FileInputStream fileInput = new FileInputStream(file);
