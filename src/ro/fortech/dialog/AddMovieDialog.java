@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import ro.fortech.business.DisplayMoviesController;
@@ -20,9 +21,33 @@ public class AddMovieDialog implements Serializable {
 	private DisplayMoviesController displayCtrl;
 
 	private Movie newMovie;
+	private boolean isEditMode;
+
+	public boolean getIsEditMode() {
+		return isEditMode;
+	}
+
+	public void setEditMode(boolean isEditMode) {
+		this.isEditMode = isEditMode;
+	}
 
 	public AddMovieDialog() {
 		resetNewMovie();
+	}
+	
+	public String checkEditMode(ActionEvent event) {
+
+		String buttonId = event.getComponent().getId();
+
+		if (buttonId.equals("addButton")) {
+			isEditMode = true;
+		}
+
+		else {
+			isEditMode = false;
+		}
+
+		return String.valueOf(isEditMode);
 	}
 	
 	private void resetNewMovie() {

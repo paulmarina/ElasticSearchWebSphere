@@ -12,9 +12,8 @@
 		<h:panelGrid columns="2">
 			<h:outputLabel for="title" value="*Movie Title: " title="Movie Title" />
 			<h:panelGroup>
-				<h:inputText id="title"
-					value="#{addMovieDialog.newMovie.title}" title="Movie Title"
-					tabindex="1" required="true"
+				<h:inputText id="title" value="#{addMovieDialog.newMovie.title}"
+					title="Movie Title" tabindex="1" required="true"
 					requiredMessage="Movie title is required" />
 				<h:message id="m1" for="title" style="color:red" />
 			</h:panelGroup>
@@ -23,8 +22,8 @@
 				title="Movie Director" />
 			<h:panelGroup>
 				<h:inputText id="director"
-					value="#{addMovieDialog.newMovie.director}"
-					title="Movie director" tabindex="1" required="true"
+					value="#{addMovieDialog.newMovie.director}" title="Movie director"
+					tabindex="1" required="true"
 					requiredMessage="Movie director is required" />
 				<h:message id="m2" for="director" style="color:red" />
 			</h:panelGroup>
@@ -37,7 +36,8 @@
 				<h:message id="m3" for="year" style="color:red" />
 			</h:panelGroup>
 		</h:panelGrid>
-		<h:commandButton value="Add"
+		<h:commandButton id="addButton" value="Add"
+			actionListener="#{addMovieDialog.checkEditMode}"
 			action="#{addMovieDialog.addMovie()}" />
 	</h:form>
 </h:body>

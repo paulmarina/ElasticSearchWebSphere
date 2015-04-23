@@ -97,10 +97,10 @@ public class UploadImageDialog implements Serializable {
 		 * String id = (String) object; BinaryContent content = (BinaryContent)
 		 * getContentById(id); os.write(content.getContent());
 		 */
-		// if (object instanceof MediaData) {
-		stream.write(getImages().get((Integer) object).getData());
-		stream.close();
-		// }
+		if (object instanceof MediaData) {
+			stream.write(getImages().get((Integer) object).getData());
+			stream.close();
+		}
 	}
 
 	public String listener(FileUploadEvent event) throws Exception {

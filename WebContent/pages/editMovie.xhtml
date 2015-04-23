@@ -36,7 +36,7 @@
 
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
 			
-			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode}">
+			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}">
 				<rich:fileUpload fileUploadListener="#{uploadImageDialog.listener}"
 					id="upload" acceptedTypes=".jpg, .gif, .png, .bmp"
 					ontyperejected="alert('Only JPG, GIF, PNG and BMP files are accepted');"
@@ -55,7 +55,7 @@
 							<rich:panel bodyClass="rich-laguna-panel-no-header">
 								<h:panelGrid columns="2">
 									<a4j:mediaOutput element="img" mimeType="image/jpeg"
-										createContent="#{uploadImageDialog.paint}" value="#{image.movieId}"
+										createContent="#{uploadImageDialog.paint}" value="#{mediaData}"
 										style="width:100px; height:100px;" cacheable="false">
 									</a4j:mediaOutput>
 									<h:panelGrid columns="2">
@@ -85,7 +85,7 @@
 		</h:panelGrid>
 		<h:commandButton value="Save changes"
 			action="#{editMovieDialog.updateMovie(editMovieDialog.movie)}"
-			rendered="#{editMovieDialog.isEditMode}" />
+			rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}" />
 	</h:form>
 </h:body>
 </html>
