@@ -13,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 
 import ro.fortech.business.DisplayMoviesController;
@@ -21,8 +22,10 @@ import ro.fortech.model.Image;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
 
-@ManagedBean(name = "editMovieDialog")
-@SessionScoped
+//@ManagedBean(name = "editMovieDialog")
+@Named("editMovieDialog")
+//@SessionScoped
+@javax.enterprise.context.SessionScoped
 public class EditMovieDialog implements Serializable {
 
 	private static final long serialVersionUID = 4128776498153336119L;
