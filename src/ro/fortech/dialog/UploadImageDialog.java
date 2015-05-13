@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -91,6 +92,11 @@ public class UploadImageDialog implements Serializable {
 			return 0;
 		}
 	}
+	
+	public void handleFileUpload(FileUploadEvent event) {  
+        FacesMessage msg = new FacesMessage("Succesful", event.getUploadedFile().getName() + " is uploaded.");  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    }  
 
 	public void paint(OutputStream stream, Object object) throws IOException {
 		/*

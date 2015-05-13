@@ -5,8 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head></h:head>
 <h:body>
@@ -36,9 +35,15 @@
 				required="true" readonly="#{!editMovieDialog.isEditMode}" />
 
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
-
 			
-			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}">
+			 <p:fileUpload fileUploadListener="#{uploadImageDialog.handleFileUpload}"  
+            mode="advanced"  
+            update="messages"   
+            multiple="true"  
+            sizeLimit="1000000"  
+            allowTypes="png,gif,jpg"/>  
+			
+<!-- 			 <h:panelGrid columns="2" id="uploadPanel" rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}">
 				<rich:fileUpload fileUploadListener="#{uploadImageDialog.listener}"
 					id="upload" acceptedTypes=".jpg, .gif, .png, .bmp"
 					ontyperejected="alert('Only JPG, GIF, PNG and BMP files are accepted');"
@@ -57,7 +62,6 @@
 							<rich:panel bodyClass="rich-laguna-panel-no-header">
 								<h:panelGrid columns="2">
 									<a4j:mediaOutput element="img" mimeType="image/jpeg"
-
 										createContent="#{uploadImageDialog.paint}" value="#{mediaData}"
 										style="width:100px; height:100px;" cacheable="false">
 									</a4j:mediaOutput>
@@ -76,27 +80,16 @@
 						render="info, upload" value="Clear Uploaded Data"
 						rendered="#{uploadImageDialog.size>0}" />
 				</h:panelGroup>
-			</h:panelGrid>
+			</h:panelGrid> --> 
 
-			<!-- <ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
+			<ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
 				<h:panelGroup>
-					<h:graphicImage value="/rest/images/#{image.id}"
-						rendered="#{!editMovieDialog.isEditMode}" />
+					<h:graphicImage value="/rest/images/#{image.id}" rendered="#{!editMovieDialog.isEditMode}"/>
 				</h:panelGroup>
-			</ui:repeat> -->
-
+			</ui:repeat>
 
 
 		</h:panelGrid>
-
-		<p:carousel autoPlayInterval="2000" numVisible="1"
-			effect="easeInStrong" circular="true"
-			value="#{editMovieDialog.imagesForMovie}" var="image">
-			<h:panelGrid columns="1" style="width:100%" cellpadding="5">
-				<h:graphicImage value="/rest/images/#{image.id}"
-					rendered="#{!editMovieDialog.isEditMode}" />
-			</h:panelGrid>
-		</p:carousel>
 		<h:commandButton value="Save changes"
 			action="#{editMovieDialog.updateMovie(editMovieDialog.movie)}"
 			rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}" />
