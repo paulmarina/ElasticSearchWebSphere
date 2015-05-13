@@ -12,13 +12,11 @@
  
     Hello World!
  
-   <p:carousel autoPlayInterval="2000" numVisible="1"
-		effect="easeInStrong" circular="true">
-		<p:graphicImage value="car2.jpg" />
-		<p:graphicImage value="coffee.jpg" />
-		<p:graphicImage value="car2.jpg" />
-
-
-	</p:carousel>
+  <p:carousel numVisible="1" value="#{editMovieDialog.imagesForMovie}"
+			var="image">
+			<h:panelGrid columns="1" style="width:100%" cellpadding="5">
+				<p:graphicImage value="coffee.jpg" />
+			</h:panelGrid>
+		</p:carousel>
 </h:body>
 </html>
