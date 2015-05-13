@@ -3,8 +3,10 @@ package ro.fortech.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -35,14 +37,17 @@ public class ImageService {
 
 		Properties properties;
 		try {
-			properties = loadPaths(ctx.getResource(Constants.XML_PATH_JAX)
-					.getPath());
+			String urlEncoded = ctx.getResource(Constants.XML_PATH_JAX)
+					.getPath();
+			String decoded = URLDecoder.decode(urlEncoded, "UTF-8");
+			properties = loadPaths(decoded);
 			imgAcc.init(properties);
 
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
 		}
-
 
 		Image image = imgAcc.getById(id);
 
