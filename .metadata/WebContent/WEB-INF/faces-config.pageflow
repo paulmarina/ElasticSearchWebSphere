@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14290185396590" configfile="/ElasticSearchWebSphere/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="pages/index.xhtml" x="338" y="178" id="pf14295991641760" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf14295991641761" inlinks="pf14295991641762" path="/pages/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/addMovie.xhtml" x="122" y="178" id="pf14295991641763" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14295991641762" inlinks="pf14295991641761" path="/pages/addMovie.xhtml"/>
-  <links id="pf14295991641761" target="pf14295991641763" source="pf14295991641760" outcome="addMovie"/>
-  <links id="pf14295991641762" target="pf14295991641760" source="pf14295991641763" outcome="index"/>
-</pageflow:Pageflow>
