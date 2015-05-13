@@ -89,13 +89,13 @@
 			</h:panelGrid> -->
 
 
-
-			<p:carousel numVisible="1" value="#{editMovieDialog.imagesForMovie}"
-				var="image"
+			<h:outputLabel for="images">Movie images:</h:outputLabel>
+			<p:carousel id="images" numVisible="1"
+				value="#{editMovieDialog.imagesForMovie}" var="image"
 				rendered="#{!(editMovieDialog.isEditMode || addMovieDialog.isEditMode)}"
 				effect="easeInStrong" circular="true"
-				itemStyle="border:10px;height:280px;width:400px;">
-				<h:panelGrid columns="1" style="text-align:center" cellpadding="10">
+				itemStyle="border:0px;height:280px;width:400px;" style="text-align:center">
+				<h:panelGrid columns="1" style="text-align:center" cellpadding="1">
 
 					<p:graphicImage value="/rest/images/#{image.id}" />
 
