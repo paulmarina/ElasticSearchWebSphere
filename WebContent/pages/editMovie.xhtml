@@ -79,17 +79,14 @@
 				</h:panelGroup>
 			</h:panelGrid>
 
-			<!-- <ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
-				<h:panelGroup>
-					<h:graphicImage value="/rest/images/#{image.id}"
-						rendered="#{!editMovieDialog.isEditMode}" />
-				</h:panelGroup>
-			</ui:repeat> -->
 
 			<p:carousel numVisible="1" value="#{editMovieDialog.imagesForMovie}"
-				var="image" rendered="#{!(editMovieDialog.isEditMode || addMovieDialog.isEditMode)}">
-				<h:panelGrid columns="1" style="width:200%" cellpadding="200">
+				var="image"
+				rendered="#{!(editMovieDialog.isEditMode || addMovieDialog.isEditMode)}"
+				autoPlayInterval="4000" effect="easeInStrong" circular="true">
+				<h:panelGrid columns="1" style="width:100%" cellpadding="200">
 					<p:graphicImage value="/rest/images/#{image.id}" />
+
 				</h:panelGrid>
 			</p:carousel>
 
