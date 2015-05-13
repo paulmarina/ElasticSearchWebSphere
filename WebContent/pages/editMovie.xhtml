@@ -93,8 +93,9 @@
 			<p:carousel numVisible="1" value="#{editMovieDialog.imagesForMovie}"
 				var="image"
 				rendered="#{!(editMovieDialog.isEditMode || addMovieDialog.isEditMode)}"
-				autoPlayInterval="4000" effect="easeInStrong" circular="true">
-				<h:panelGrid columns="1" style="width:100%" cellpadding="200">
+				effect="easeInStrong" circular="true"
+				itemStyle="border:10px;height:280px;width:400px;">
+				<h:panelGrid columns="1" style="text-align:center" cellpadding="10">
 
 					<p:graphicImage value="/rest/images/#{image.id}" />
 
