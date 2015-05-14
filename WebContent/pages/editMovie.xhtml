@@ -38,11 +38,11 @@
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
 
 
-			<p:growl id="messages" showDetail="true" />
+			<!-- <p:growl id="messages" showDetail="true" /> -->
 
 			<p:fileUpload
 				fileUploadListener="#{uploadImageDialog.handleFileUpload}"
-				mode="advanced" update="messages" multiple="true"
+				mode="advanced" multiple="true"
 				sizeLimit="1000000"
 				rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}" />
 

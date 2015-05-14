@@ -1,14 +1,10 @@
 package ro.fortech.dialog;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -16,7 +12,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
-
 import org.primefaces.model.UploadedFile;
 
 import ro.fortech.business.DisplayMoviesController;
@@ -33,7 +28,7 @@ public class UploadImageDialog implements Serializable {
 
 	@Inject
 	private DisplayMoviesController moviesCtrl;
-	
+
 	@Inject
 	private ImageController imgCtrl;
 
@@ -91,27 +86,54 @@ public class UploadImageDialog implements Serializable {
 			return 0;
 		}
 	}
-	
+
 	public void handleFileUpload(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
-		
-		Image uploadedImage = new Image(); 
-		uploadedImage.setName(file.getFileName());
+		String fileName = file.getFileName();
+
+		OutputStream out = null;
+		InputStream fileContent = null;
+
+		Image uploadedImage = new Image();
+		uploadedImage.setName(fileName);
 		uploadedImage.setMovieId(editedMovie.getId());
-		
+
 		Properties properties = loadPaths();
 		imgCtrl.init(properties);
 		imgCtrl.addImage(uploadedImage);
-		
-        FacesMessage msg = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-    }  
+
+		try {
+			File image = new File(fileName);
+			String path = image.getAbsolutePath();
+			if (!image.exists()) {
+				image.createNewFile();
+			}
+			out = new FileOutputStream(image);
+			byte[] x = file.getContents();
+			out.write(x);
+
+			if (out != null) {
+				out.close();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/*
+		 * FacesMessage msg = new FacesMessage("Succesful", file.getFileName() +
+		 * " is uploaded."); FacesContext.getCurrentInstance().addMessage(null,
+		 * msg);
+		 */
+	}
 
 	public Properties loadPaths() {
 
 		Properties result = null;
 		try {
-
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			String path = servletContext.getRealPath(Constants.XML_PATH);
