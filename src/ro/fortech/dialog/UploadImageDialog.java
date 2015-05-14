@@ -3,7 +3,6 @@ package ro.fortech.dialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -16,15 +15,15 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
 
-import ro.fortech.access.ImageAccess;
+import org.primefaces.model.UploadedFile;
+
 import ro.fortech.business.DisplayMoviesController;
+import ro.fortech.business.ImageController;
 import ro.fortech.model.Image;
 import ro.fortech.model.Movie;
 import ro.fortech.utils.Constants;
-import ro.fortech.utils.MediaData;
 
 @ManagedBean(name = "uploadImageDialog")
 @SessionScoped
@@ -33,10 +32,10 @@ public class UploadImageDialog implements Serializable {
 	private static final long serialVersionUID = 6977230876142770216L;
 
 	@Inject
-	private ImageAccess imgAcc;
-
-	@Inject
 	private DisplayMoviesController moviesCtrl;
+	
+	@Inject
+	private ImageController imgCtrl;
 
 	public UploadImageDialog() {
 
@@ -93,50 +92,20 @@ public class UploadImageDialog implements Serializable {
 		}
 	}
 	
-	public void handleFileUpload(FileUploadEvent event) {  
-        FacesMessage msg = new FacesMessage("Succesful", event.getUploadedFile().getName() + " is uploaded.");  
+	public void handleFileUpload(FileUploadEvent event) {
+		UploadedFile file = event.getFile();
+		
+		Image uploadedImage = new Image(); 
+		uploadedImage.setName(file.getFileName());
+		uploadedImage.setMovieId(editedMovie.getId());
+		
+		Properties properties = loadPaths();
+		imgCtrl.init(properties);
+		imgCtrl.addImage(uploadedImage);
+		
+        FacesMessage msg = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
     }  
-
-	public void paint(OutputStream stream, Object object) throws IOException {
-		/*
-		 * String id = (String) object; BinaryContent content = (BinaryContent)
-		 * getContentById(id); os.write(content.getContent());
-		 */
-		if (object instanceof MediaData) {
-			stream.write(getImages().get((Integer) object).getData());
-			stream.close();
-		}
-	}
-
-	public String listener(FileUploadEvent event) throws Exception {
-		UploadedFile item = event.getUploadedFile();
-		Image image = new Image();
-		image.setLength(item.getData().length);
-		image.setName(item.getName());
-		image.setData(item.getData());
-		image.setMovieId(editedMovie.getId());
-		images.add(image);
-		return "editMovie.xhtml?faces-redirect=true";
-	}
-
-	public String clearUploadData() {
-		images.clear();
-		setUploadsAvailable(5);
-		return null;
-	}
-
-	public String uploadImage(Movie movie, String imageName) {
-
-		Image image = new Image(imageName, movie.getId());
-		Properties properties = loadPaths();
-		imgAcc.init(properties);
-
-		imgAcc.addImage(image);
-
-		// imagePath = "/rest/images/" + movie.getId();
-		return "movieImage?faces-redirect=true";
-	}
 
 	public Properties loadPaths() {
 

@@ -20,6 +20,10 @@ public class ImageController {
 		imgAcc.init(properties);
 	}
 	
+	public void addImage(Image image){
+		imgAcc.addImage(image);
+	}
+	
 	public List<Image> displayImages(Movie movie){
 		
 		return imgAcc.searchDocument("movieId", movie.getId());

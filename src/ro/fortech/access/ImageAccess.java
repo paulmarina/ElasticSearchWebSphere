@@ -32,11 +32,9 @@ public class ImageAccess {
 	}
 
 	public void addImage(Image image) {
-
 		client.prepareIndex(properties.getProperty(Constants.INDEX),
 				properties.getProperty(Constants.IMAGE_TYPE))
 				.setSource(createJsonDocument(image)).execute().actionGet();
-
 	}
 
 	public Map<String, Object> createJsonDocument(Image image) {

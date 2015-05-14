@@ -20,10 +20,10 @@
     	<param-value>20</param-value>
 	</context-param>    
 
-<context-param>
-    <param-name>facelets.SKIP_COMMENTS</param-name>
-    <param-value>true</param-value>
-</context-param>
+	<context-param>
+    	<param-name>facelets.SKIP_COMMENTS</param-name>
+    	<param-value>true</param-value>
+	</context-param>
 
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -42,4 +42,13 @@
 		<welcome-file>pages/index.xhtml</welcome-file>
 
 	</welcome-file-list>
+	
+		<filter>
+  		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+ 		 <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+  		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+  		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
 </web-app>
