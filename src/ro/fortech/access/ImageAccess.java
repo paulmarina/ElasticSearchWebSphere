@@ -82,9 +82,8 @@ public class ImageAccess {
 				} else if (entry.getKey().equals("movieId")) {
 					localMovieId = entry.getValue().toString();
 				}
-
 			}
-			Image image = new Image(localName, localMovieId,localId);
+			Image image = new Image(localName, localMovieId, localId);
 
 			result.add(image);
 
@@ -93,12 +92,12 @@ public class ImageAccess {
 		return result;
 
 	}
-	
+
 	public Image getById(String id) {
 		GetResponse response = client.prepareGet()
 				.setIndex(properties.getProperty(Constants.INDEX))
-				.setType(properties.getProperty(Constants.IMAGE_TYPE)).setId(id)
-				.execute().actionGet();
+				.setType(properties.getProperty(Constants.IMAGE_TYPE))
+				.setId(id).execute().actionGet();
 
 		Map<String, Object> hit = response.getSource();
 
