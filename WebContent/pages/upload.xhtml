@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<h:body>
+
+	<center>
+		<h:outputText value="Edit Movie Information" styleClass="header"
+			rendered="#{editMovieDialog.isEditMode}">
+		</h:outputText>
+		<h:outputText value="View Movie Information" styleClass="header"
+			rendered="#{!editMovieDialog.isEditMode}">
+		</h:outputText>
+	</center>
+
+
+	<h:form enctype="multipart/form-data">
+		<h:panelGrid columns="2">
+
+			<h:outputLabel for="title">Movie Title:</h:outputLabel>
+			<h:inputText id="title" value="#{editMovieDialog.movie.title}"
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
+
+			<h:outputLabel for="director">Movie Director:</h:outputLabel>
+			<h:inputText id="director" value="#{editMovieDialog.movie.director}"
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
+
+			<h:outputLabel for="year">Movie Year:</h:outputLabel>
+			<h:inputText id="year" value="#{editMovieDialog.movie.year}"
+				required="true" readonly="#{!editMovieDialog.isEditMode}" />
+
+			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
+
+			<p:fileUpload
+				fileUploadListener="#{uploadImageDialog.handleFileUpload}"
+				mode="advanced" sizeLimit="1000000" />
+
+		</h:panelGrid>
+
+	</h:form>
+
+</h:body>
+</html>

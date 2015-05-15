@@ -57,7 +57,7 @@ public class AddMovieDialog implements Serializable {
 	public String addMovie() {
 		displayCtrl.addMovie(newMovie);
 		resetNewMovie();
-		return "editMovie.xhtml?faces-redirect=true";
+		return "upload.xhtml?faces-redirect=true";
 	}
 
 	public Movie getNewMovie() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -103,7 +104,7 @@ public class UploadImageDialog implements Serializable {
 		imgCtrl.addImage(uploadedImage);
 
 		try {
-			File image = new File(fileName);
+			File image = new File(Constants.IMAGE_PATH + File.separator + fileName);
 			String path = image.getAbsolutePath();
 			if (!image.exists()) {
 				image.createNewFile();
@@ -123,11 +124,11 @@ public class UploadImageDialog implements Serializable {
 			e.printStackTrace();
 		}
 
-		/*
-		 * FacesMessage msg = new FacesMessage("Succesful", file.getFileName() +
-		 * " is uploaded."); FacesContext.getCurrentInstance().addMessage(null,
-		 * msg);
-		 */
+		
+		 FacesMessage msg = new FacesMessage("Succesful", file.getFileName() +
+		 " is uploaded."); FacesContext.getCurrentInstance().addMessage(null,
+		 msg);
+		 
 	}
 
 	public Properties loadPaths() {
