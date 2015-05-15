@@ -7,6 +7,9 @@
    <PROCESS-ITEM-OUTPUT ID="addMovie::#pages#addMovie.xhtml"
     NAME="output" PATH="/pages/addMovie.xhtml"
     TARGET="rules:#pages#addMovie.xhtml" TITLE="addMovie" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="upload::#pages#upload.xhtml" NAME="output1"
+    PATH="/pages/upload.xhtml" TARGET="rules:#pages#upload.xhtml"
+    TITLE="upload" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#addMovie.xhtml"
@@ -18,4 +21,7 @@
     TITLE="index" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#upload.xhtml"
+  PATH="/pages/upload.xhtml" SHAPE="128,184,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
 </PROCESS>

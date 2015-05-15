@@ -9,5 +9,6 @@ public final class Constants {
 	public static final String XML_PATH_JAX = "/resources/preferences.xml";	
 	public static final String IMAGE_PATH_JAX = "../images/";	
 	public static final String IMAGE_TYPE ="IMAGE_TYPE";
+	public static final String IMAGE_PATH = "D:\\websphereImages\\";
 	
 }

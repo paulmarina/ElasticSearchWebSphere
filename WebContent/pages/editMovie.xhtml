@@ -52,15 +52,6 @@
 
 			<h:outputLabel for="upload">Movie Pictures:</h:outputLabel>
 
-
-			<!-- <p:growl id="messages" showDetail="true" /> -->
-
-			<p:fileUpload
-				fileUploadListener="#{uploadImageDialog.handleFileUpload}"
-				mode="advanced" multiple="true"
-				sizeLimit="1000000"
-				rendered="#{editMovieDialog.isEditMode || addMovieDialog.isEditMode}" />
-
 			<!-- ....................................................slideShow using primefaces......................................................
  .................................................................................................................................... -->
 
@@ -88,7 +79,7 @@
 
 		<div class="container">
 			<div id="myCarousel" class="carousel slide">
-				<!-- Wrapper for slides -->
+				
 				<div class="carousel-inner">
 					<ui:repeat var="image" value="#{editMovieDialog.imagesForMovie}">
 						<div
@@ -99,7 +90,7 @@
 						</div>
 					</ui:repeat>
 				</div>
-				<!-- Left and right controls -->
+				
 				<a class="left carousel-control"> <span
 					class="glyphicon glyphicon-chevron-left"></span> <span
 					class="sr-only">Previous</span>

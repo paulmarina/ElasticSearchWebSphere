@@ -55,19 +55,21 @@ public class ImageService {
 		String mt = "";
 
 		try {
-			String myPath = ctx.getResource("/").toURI()
-					.resolve(Constants.IMAGE_PATH_JAX).getPath()
+			/*String myPath = ctx.getResource("/").toURI()
+					.resolve(Constants.IMAGE_PATH).getPath()
+					+ image.getName();*/
+			String myPath = new File(Constants.IMAGE_PATH).toURI().getPath()
 					+ image.getName();
 			f = new File(myPath);
 			mt = new MimetypesFileTypeMap().getContentType(f);
 
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
+		} /*catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		return Response.ok(f, mt).build();
 
