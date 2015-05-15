@@ -16,6 +16,16 @@
 
 		<h:form>
 
+			<rich:toolbar height="26" itemSeparator="grid">
+				
+				<h:commandButton value="Search Movies"
+					action="searchMovies?faces-redirect=true" />
+				<h:commandButton value="Add new movie"
+					action="addMovie.xhtml?faces-redirect=true" />
+			</rich:toolbar>
+			<br />
+			<br />
+
 			<rich:dataTable value="#{displayMoviesDialog.displayMoviesList()}"
 				var="movie" iterationStatusVar="it" styleClass="movieTable"
 				headerClass="movieTableHeader"
@@ -63,8 +73,8 @@
 				</rich:column>
 
 			</rich:dataTable>
-			
-			<h:commandButton value="Add new movie" action="addMovie.xhtml?faces-redirect=true"/>
+
+
 
 		</h:form>
 

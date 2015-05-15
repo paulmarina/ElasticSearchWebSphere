@@ -13,13 +13,13 @@ import com.google.gson.Gson;
 
 public class ImdbMovieAccess {
 
-	public Movie searchImdbByTitle() {
+	public Movie searchImdbByTitle(String title) {
 
 		Movie movie = new Movie();
 		try {
 
 			InputStream input = new URL("http://www.omdbapi.com/?t="
-					+ URLEncoder.encode("Atonement", "UTF-8")).openStream();
+					+ URLEncoder.encode(title, "UTF-8")).openStream();
 			Map<String, String> map = new Gson().fromJson(
 					new InputStreamReader(input, "UTF-8"),
 					new TypeToken<Map<String, String>>() {
@@ -30,6 +30,8 @@ public class ImdbMovieAccess {
 			movie.setDirector(map.get("Director"));
 			movie.setTitle(map.get("Title"));
 			movie.setYear(Integer.parseInt(map.get("Year")));
+			
+			System.out.println(movie.getDirector());
 
 		} catch (Exception e) {
 			System.out.println("exception: " + e.getMessage());

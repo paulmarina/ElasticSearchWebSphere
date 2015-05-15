@@ -11,10 +11,9 @@ public class IMDBMoviesController {
 	@Inject
 	private ImdbMovieAccess imdbMovieAccess;
 
-	public String searchImdbByTitle() {
+	public void searchImdbByTitle(String title) {
 
-		imdbMovieAccess.searchImdbByTitle();
-		return "";
+		imdbMovieAccess.searchImdbByTitle(title);
 
 	}
 }

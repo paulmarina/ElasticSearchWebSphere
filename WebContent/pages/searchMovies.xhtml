@@ -7,8 +7,15 @@
 <h:head></h:head>
 <body>
 	<h:form>
-		<h:commandButton action="#{imdb.searchImdbByTitle()}" value="push me" />
-		
+
+		<h:panelGrid columns="2">
+			<h:outputLabel for="title" value="Search By Movie Title: " />
+			<h:inputText id="title" value="#{imdb.movie.title}" />
+
+		</h:panelGrid>
+		<br />
+		<h:commandButton action="#{imdb.searchImdbByTitle(imdb.movie.title)}" value="Search" />
+
 	</h:form>
 </body>
 </html>
